@@ -41,7 +41,7 @@ function operation(){
         withdraw()
         break;
       default:
-        console.log(chalk.rgb(10, 80, 255)("Obrigado por usar o bank!"))
+        console.log(chalk.bgRgb(10, 80, 255).white.bold("Obrigado por usar o bank!"))
         process.exit()
     }
   })
@@ -116,7 +116,7 @@ async function deposit(){
   if(!amountToDeposit) return deposit()
 
   // Calculate
-  accountData.balance = parseFloat(accountData.balance) + parseFloat(value);
+  accountData.balance = parseFloat(accountData.balance) + parseFloat(amountToDeposit);
 
   // Save file
   fs.writeFileSync(
@@ -125,7 +125,9 @@ async function deposit(){
     (error) => console.log(error)
   )
 
-  console.log(chalk.bgRgb(10, 255, 10).rgb(0, 0, 0).bold(`Sucesso! Foi depositado o valor de $${value} na conta ${accountName.split("_").join(" ")}.`))
+  console.log(chalk.bgRgb(10, 255, 10).rgb(0, 0, 0).bold(`Sucesso! Foi depositado o valor de $${amountToDeposit} na conta ${accountName.split("_").join(" ")}.`))
+
+  operation()
 }
 
 // Show balance
@@ -151,7 +153,7 @@ async function withdraw(){
   if(!accountData) return withdraw()
 
   // Ask how much you want to withdraw
-  prompt([
+  await prompt([
     {
       name: "howMuchToWithdraw",
       message: "Quanto você quer sacar?"
@@ -171,6 +173,8 @@ async function withdraw(){
   )
 
   console.log(chalk.bgRgb(10, 255, 10).rgb(0, 0, 0).bold(`Você sacou um valor de $${withDrawAmount} na conta ${accountName.split("_").join(" ")}.`))
+
+  operation()
 }
 
 
