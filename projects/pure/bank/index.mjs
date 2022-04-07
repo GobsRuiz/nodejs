@@ -163,6 +163,11 @@ async function withdraw(){
     
   }).catch((error) => console.log(error))
 
+  // Check if the user has available balance
+  if(accountData.balance < withDrawAmount) {
+    console.log(chalk.bgRgb(255, 0, 0).rgb(0, 0, 0).bold("Valor de saque indisponível!"))
+    return operation()
+  }
   accountData.balance = parseFloat(accountData.balance) - parseFloat(withDrawAmount);
 
   // Save file
