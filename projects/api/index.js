@@ -1,13 +1,18 @@
 const express = require("express");
-const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
+// Routes
 const routeProducts = require('./routes/products');
-const routeHashtag = require('./routes/hashtag');
+
+const app = express();
 
 
+
+// Morgan
 app.use(morgan("dev"));
+
+// Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -28,7 +33,6 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/hashtag', routeHashtag);
 app.use('/produtos', routeProducts);
 
 // Error
