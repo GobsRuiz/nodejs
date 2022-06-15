@@ -4,36 +4,29 @@ const bodyParser = require('body-parser');
 
 // Routes
 const routeProducts = require('./routes/products');
+const routeMusics = require('./routes/musics');
 
 const app = express();
+const cors = require("cors");
 
 
 
 // Morgan
 app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"))
 
 // Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Cors
-app.use((req, res, next) => {
-  res.header("Acces-Control-Allow-Origin", "*");
-  res.header(
-    "Acces-Control-Allow-Header", 
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  
-  if(req.method === "OPTIONS"){
-    res.header('Acces-Control-Allow-Methods', "GET, POST, DELETE, PUT, PATCH");
-    return res.status(200).send({});
-  }
+app.use(cors())
 
-  next();
-})
+// Public
 
 // Routes
 app.use('/produtos', routeProducts);
+app.use('/musicas', routeMusics);
 
 // Error
 app.use((req, res, next) => {
